@@ -1,3 +1,4 @@
+# 1.1 Estacionariedad
 N <- 500
 a <- 1
 l <- 0.01
@@ -50,3 +51,27 @@ for (t in 2:N){
 }
 plot(y,type='l', ylab="a+l*time(y)[t]+y[t-1]+v[t]", main = "Caminata aleatoria con constante y tendencia")
 abline(h=0)
+
+# 1.2 Regresión espúrea
+T <- 1000
+set.seed(1357)
+y <- ts(rep(0,T))
+vy <- ts(rnorm(T))
+for (t in 2:T){
+  y[t] <- y[t-1]+vy[t]
+}
+
+set.seed(4365)
+x <- ts(rep(0,T))
+vx <- ts(rnorm(T))
+for (t in 2:T){
+  x[t] <- x[t-1]+vx[t]
+}
+y <- ts(y[300:1000])
+x <- ts(x[300:1000])
+
+par(mfrow = c(1,2))
+ts.plot(y,x, ylab="y & x")
+plot(x, y, type="p", col="grey")
+
+
